@@ -1,9 +1,10 @@
 //Implementation of FileWrapper
 #include<iostream>
 #include<fstream>
-#include<sstream>
 #include<cctype>
 #include<cstdlib>
+#include<sys/types.h>
+#include<sys/stat.h>
 #include"File.h"
 
 FileWrapper::FileWrapper() {
