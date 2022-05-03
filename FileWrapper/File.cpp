@@ -34,7 +34,6 @@ FileWrapper::FileWrapper(std::string filename) {
 
 }
 
-
 void FileWrapper::appendToFile(std::string text) {
     file.open(filename, FILE_WRITE | FILE_APPEND);
     file<<text;
@@ -99,6 +98,45 @@ int FileWrapper::fileStats(int& chars, int& words, int& lines) {
     }
     file.close();
     return words;
+}
+
+void FileWrapper::createBackup() {
+    backupFilename = filename + ".bak";
+    //first off, check if backup exists, if so, abort function and notify user
+    if(fileExists(backupFilename)) {
+        std::cerr<<"Error: Backup file already exists. Please delete or modify the name of the backup file\n";
+        return;
+    }
+    
+    //open up our destination file
+    dest.open(backupFilename, FILE_WRITE);
+    if(!dest.is_open()) { //check to see if creating backup was unsuccessful
+        std::cerr<<"Error creating backup file\n";
+        return;
+    }
+    std::cerr<<"Backup created successfully\n";
+
+
+    //open up our source file
+    src.open(filename, FILE_READ);
+    //copy from src to dest
+    for(std::string line; std::getline(src, line);) {
+        dest<<line<<'\n';
+    }
+    
+    //close out our files and exit function
+    src.close();
+    dest.close();
+    return;
+}
+
+bool FileWrapper::fileExists(const std::string& name) {
+    struct stat buf;
+    if (stat(name.c_str(), &buf) != -1)
+    {
+        return true;
+    }
+    return false;
 }
 
 //returns a size of -1 if an error was found

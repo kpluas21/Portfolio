@@ -13,10 +13,12 @@ This is not meant to be used by itself. Use this in conjunction with any program
 2. Printing entire contents of file to the terminal
 3. Character, word and line count
 4. Size of files in bytes
+5. Create a backup of the file
+6. Searching for the first instance of a particular pattern
 
 # Functions to be implemented in the future
 1. Handling multiple files
 2. Using folders
 3. Copying and moving files
-4. Search features (grep)
+4. More advanced search features
 
