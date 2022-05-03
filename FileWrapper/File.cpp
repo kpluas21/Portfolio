@@ -5,6 +5,7 @@
 #include<cstdlib>
 #include<sys/types.h>
 #include<sys/stat.h>
+#include<vector>
 #include"File.h"
 
 FileWrapper::FileWrapper() {
@@ -44,10 +45,34 @@ void FileWrapper::printFile() {
     file.open(filename, FILE_READ);
     std::string line;
     while(std::getline(file, line)) {
-        std::cout<<line;
+        std::cout<<line<<'\n';
     }
     file.close();
 }
+
+bool FileWrapper::searchFileFirst(std::string query) {
+    //goes through each individual line in the file and searches for the query
+    file.open(filename, FILE_READ);
+    for(std::string line; std::getline(file, line);) {
+        if(line.find(query) != std::string::npos) {
+            std::cout<<"Pattern found in file\n";
+            std::cout<<line;
+            file.close();
+            return true;
+        }
+    }
+    std::cout<<"Pattern not found in file\n";
+    file.close();
+    return false;
+}
+
+//TO BE DONE
+// bool FileWrapper::searchFileAll(std::string query) {
+//     //our container with all the instances of the pattern
+//     std::vector<std::string> patterns;
+
+
+// }
 
 int FileWrapper::fileStats(int& chars, int& words, int& lines) {
     char cur = '\0';
@@ -76,12 +101,16 @@ int FileWrapper::fileStats(int& chars, int& words, int& lines) {
     return words;
 }
 
-int FileWrapper::fileSize() {
+//returns a size of -1 if an error was found
+void FileWrapper::fileSize(int& bytes) {
     struct stat stbuf;
     if(stat(filename.c_str(), &stbuf) == -1) {
         std::cerr<<"fileSize: Cannot access "<<filename<<'\n';
-        return -1;
+        bytes = -1;
+        return;
     }
-    return stbuf.st_size;
+    bytes = stbuf.st_size;
+
+    return;
 }
 

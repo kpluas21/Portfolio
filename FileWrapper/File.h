@@ -29,8 +29,14 @@ public:
     //Returns ints.
     int fileStats(int& chars, int& words, int& lines);
     
-    //returns the file size in bytes
-    int fileSize();
+    //returns the file size in bytes. Returns a value of -1 if an error was found.
+    void fileSize(int& bytes);
+
+    //searches the file for a given string. If found, returns true and displays the line containing the first instance
+    bool searchFileFirst(std::string query);
+
+    //same as searchFileFirst, however it outputs every line containing the pattern
+    // bool searchFileAll(std::string query);
 
     //a state check to make sure the object was constructed okay. It should be checked after construction.
     bool isOK = true;
