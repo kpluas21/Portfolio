@@ -1,9 +1,12 @@
 # FileWrapper
-A small handler used to make handling files in C++ just a little easier. Hopefully beginners can use this to quickly get into file I/O in C++ without 
+A small wrapper used to make handling files in C++ just a little easier. Hopefully beginners can use this to quickly get into file I/O in C++ without 
 too much of a headache.
 
 Each class handles a single file. In the future, I will implement handling multiple files and folders. For now, declare an object for each file to 
 access the methods.
+
+This is not meant to be used by itself. Use this in conjunction with any program you're working on and make sure to include the appropriate files when compiling.
+
 
 # Current public functions
 1. Editing and appending to the file
