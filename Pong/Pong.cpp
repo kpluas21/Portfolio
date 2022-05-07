@@ -1,7 +1,8 @@
-//Implementation details for SDLWrapper.h
+//Implementation details for Pong.h/GameManager
 #include<iostream>
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<vector>
 #include"Pong.h"
 
 //initialize the instance to 0.
@@ -14,7 +15,9 @@ GameManager* GameManager::Instance(const char* title, const int width, const int
     return _instance;
 }
 
-GameManager::GameManager(const char* title, const int width, const int height, bool fullscreen) {
+//Initialize our windows, renderer, and the two paddles.
+GameManager::GameManager(const char* title, const int width, const int height, bool fullscreen) : 
+leftP(Paddle::Type (0), 0, (480 / 2) - 50) , rightP(Paddle::Type (1), 640 - 50, (480 / 2) - 50) {
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         throw std::bad_alloc();
@@ -33,7 +36,6 @@ GameManager::GameManager(const char* title, const int width, const int height, b
         SDL_Log("Unable to create renderer %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 
     //if all goes well, turn on isRunning
     isRunning = true;
@@ -51,24 +53,48 @@ GameManager::~GameManager() {
 
 bool GameManager::running() const {return isRunning;}
 
+std::vector<SDL_Event>& getFrameEvents() {
+    static std::vector<SDL_Event> frameEvents;
+    return frameEvents;
+}
+
 void GameManager::gameLoop() {
-    while(SDL_PollEvent(&event) > 0) {
+    //A very simply input, update, and render loop.
+    handleInput();
+    update();
+    draw();    
+}
+
+void GameManager::handleInput() {
+    while(SDL_PollEvent(&event) != 0) {
         switch(event.type) {
             case SDL_QUIT:
                 isRunning = false;
                 break;
-            default:
-                break;
         }
-        SDL_RenderClear(renderer);
-        SDL_RenderPresent(renderer);
-        //handleInputs for paddles
-        //Update paddles and ball
-        //draw to screen
-        
+
     }
+    
+    leftP.handleInput(event);
+    rightP.handleInput(event);
+
 }
 
+void GameManager::update() {
+    leftP.update(1.0/60.0);
+    rightP.update(1.0/60.0);
+
+}
+
+void GameManager::draw() {
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+
+    SDL_RenderClear(renderer);
+
+    leftP.draw(&renderer);
+    rightP.draw(&renderer);
+    SDL_RenderPresent(renderer);
+}
 
 
 

@@ -1,11 +1,10 @@
 #ifndef PONG_H
 #define PONG_H
 #include<SDL2/SDL.h>
+#include"Paddle.h"
 
 //We will be using a singleton pattern for our main game class. This class will handle the one window and renderer, as well as the event loop.
 //This ensures that the game cant be instanced a second time.
-
-// class Paddle;
 
 class GameManager {
 public:
@@ -16,8 +15,10 @@ public:
     void gameLoop();
     //void update();
     bool running() const;
+
 protected:
     GameManager(const char* title, const int width, const int height, bool fullscreen);
+    
 private:
     static GameManager* _instance;
     
@@ -27,25 +28,13 @@ private:
     
     bool isRunning;
 
+
+    void handleInput();
     void update();
     void draw();
 
-    // Paddle leftP;
-    // Paddle rightP;
+    Paddle leftP;
+    Paddle rightP;
 };
-
-
-//Handles input , movement, physics and graphics for the paddles in the game
-class Paddle {
-public:
-    Paddle(int x, int y);
-
-    void handleInput(SDL_Event const &event);
-    void update(double delta_time);
-    void draw();
-private:
-    int posx, posy, posw, posh;
-};
-
 
 #endif //PONG_H
