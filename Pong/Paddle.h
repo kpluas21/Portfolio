@@ -30,6 +30,7 @@ private:
     
     //movement speed of the paddle
     double moveSpeed = 50; 
+    int velY = 10; //max vertical velocity
     
     //related to movement, this needs to be fixed...@!!!
     double m_y;
@@ -42,6 +43,10 @@ private:
     //TODO make a sdl rect struct here ONCE! Itll make the code much nicer.
     SDL_Rect position;
     //FIX INPUT!
+
+    //debug: std::cerr current position 
+    void displayPosition(Paddle& paddle);
+
 };
 
 #endif //PADDLE_H
