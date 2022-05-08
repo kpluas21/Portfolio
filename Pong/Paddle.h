@@ -21,7 +21,7 @@ public:
 
     //self explanatory, takes some input, updates the positions,
     //then draws them to the renderer(screen)
-    void handleInput(SDL_Event const &event);
+    void handleInput();
     void update(double delta_time);
     void draw(SDL_Renderer** renderer);
 private:
