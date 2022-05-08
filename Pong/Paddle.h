@@ -5,6 +5,7 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 
+class GameManager;
 
 class Paddle {
 public:
@@ -14,7 +15,7 @@ public:
     //used to denote which direction is the paddle headed
     enum class Direction{UP, DOWN, NONE};
 
-    Paddle(Type type, int x, int y);
+    Paddle(GameManager& parent, Type type, int x, int y);
     ~Paddle() = default;
 
 
@@ -24,14 +25,22 @@ public:
     void update(double delta_time);
     void draw(SDL_Renderer** renderer);
 private:
-    int posx, posy, posw, posh;
-    double moveSpeed = 50; //pixels per frame
+    //position and dimensions of the paddle
+    int posx, posy;
     
+    //movement speed of the paddle
+    double moveSpeed = 50; 
+    
+    //related to movement, this needs to be fixed...@!!!
     double m_y;
+
+    //reference to the parent class to access the vector
+    GameManager& pParent;
 
     Type      p_type;
     Direction p_direction;
-    //TODO make a sdl rect struct here ONCE!
+    //TODO make a sdl rect struct here ONCE! Itll make the code much nicer.
+    SDL_Rect position;
     //FIX INPUT!
 };
 

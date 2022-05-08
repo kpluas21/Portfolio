@@ -16,8 +16,10 @@ GameManager* GameManager::Instance(const char* title, const int width, const int
 }
 
 //Initialize our windows, renderer, and the two paddles.
-GameManager::GameManager(const char* title, const int width, const int height, bool fullscreen) : 
-leftP(Paddle::Type (0), 0, (480 / 2) - 50) , rightP(Paddle::Type (1), 640 - 50, (480 / 2) - 50) {
+GameManager::GameManager(const char* title, const int width, const int height, bool fullscreen) 
+    : leftP(*this, Paddle::Type (0), 0, (480 / 2) - 50) 
+    , rightP(*this, Paddle::Type (1), 640 - 50, (480 / 2) - 50) {
+        
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         throw std::bad_alloc();
@@ -53,7 +55,7 @@ GameManager::~GameManager() {
 
 bool GameManager::running() const {return isRunning;}
 
-std::vector<SDL_Event>& getFrameEvents() {
+std::vector<SDL_Event>& GameManager::getFrameEvents() {
     static std::vector<SDL_Event> frameEvents;
     return frameEvents;
 }
@@ -72,12 +74,13 @@ void GameManager::handleInput() {
                 isRunning = false;
                 break;
         }
-
+        getFrameEvents().push_back(event);
     }
     
     leftP.handleInput(event);
     rightP.handleInput(event);
 
+    getFrameEvents().clear();
 }
 
 void GameManager::update() {

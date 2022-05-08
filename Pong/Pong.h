@@ -1,10 +1,12 @@
 #ifndef PONG_H
 #define PONG_H
 #include<SDL2/SDL.h>
+#include<vector>
 #include"Paddle.h"
 
 //We will be using a singleton pattern for our main game class. This class will handle the one window and renderer, as well as the event loop.
 //This ensures that the game cant be instanced a second time.
+
 
 class GameManager {
 public:
@@ -16,9 +18,13 @@ public:
     //void update();
     bool running() const;
 
+    //making this public for now because screw encapsulation. I couldnt get it to work otherwise....
+    std::vector<SDL_Event>& getFrameEvents();
+
+
 protected:
     GameManager(const char* title, const int width, const int height, bool fullscreen);
-    
+
 private:
     static GameManager* _instance;
     
@@ -32,6 +38,7 @@ private:
     void handleInput();
     void update();
     void draw();
+
 
     Paddle leftP;
     Paddle rightP;
