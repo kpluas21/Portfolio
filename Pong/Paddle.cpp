@@ -24,50 +24,22 @@ void Paddle::draw(SDL_Renderer** renderer) {
     SDL_RenderFillRect(*renderer, &position);
 }
 
-void Paddle::handleInput(SDL_Event const &event) {
+void Paddle::handleInput() {
     displayPosition(*this);
-    std::vector<SDL_Event> events = pParent.getFrameEvents();
     Uint8 const *keys = SDL_GetKeyboardState(nullptr);
 
-    for(auto& x : events) {
-        if(x.type == SDL_KEYDOWN && x.key.repeat == 0) {
-            if(p_type == Type::LEFT) {
-                if(keys[SDL_SCANCODE_W]) {
-                    p_direction = Direction::UP;
-                }
-                else if(keys[SDL_SCANCODE_S]) {
-                    p_direction = Direction::DOWN;
-                }
-            }
-            if(p_type == Type::RIGHT) {
-                if(keys[SDL_SCANCODE_UP]) {
-                    p_direction = Direction::UP;
-                }
-                else if(keys[SDL_SCANCODE_DOWN]) {
-                    p_direction = Direction::DOWN;
-                }
-            }
-        }
-        else if(x.type == SDL_KEYUP && x.key.repeat == 0) {
-            if(p_type == Type::LEFT) {
-                if(keys[SDL_SCANCODE_W]) {
-                    p_direction = Direction::NONE;
-                }
-                else if(keys[SDL_SCANCODE_S]) {
-                    p_direction = Direction::NONE;
-                }
-            }
-            else if(p_type == Type::RIGHT) {
-                if(keys[SDL_SCANCODE_UP]) {
-                    p_direction = Direction::NONE;
-                }
-                else if(keys[SDL_SCANCODE_DOWN]) {
-                    p_direction = Direction::NONE;
-                }
-            }
-        }
+    if(keys[SDL_SCANCODE_W] && p_type == Type::LEFT) {
+        p_direction = Direction::UP;
     }
-
+    else if(keys[SDL_SCANCODE_S] && p_type == Type::LEFT) {
+        p_direction = Direction::DOWN;
+    }
+    if(keys[SDL_SCANCODE_UP] && p_type == Type::RIGHT) {
+        p_direction = Direction::UP;
+    }
+    else if(keys[SDL_SCANCODE_DOWN] && p_type == Type::RIGHT) {
+        p_direction = Direction::DOWN;
+    }
 }
 
 void Paddle::update(double delta_time) {

@@ -74,11 +74,10 @@ void GameManager::handleInput() {
                 isRunning = false;
                 break;
         }
-        getFrameEvents().push_back(event);
     }
     
-    leftP.handleInput(event);
-    rightP.handleInput(event);
+    leftP.handleInput();
+    rightP.handleInput();
 
     getFrameEvents().clear();
 }
@@ -98,21 +97,3 @@ void GameManager::draw() {
     rightP.draw(&renderer);
     SDL_RenderPresent(renderer);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
