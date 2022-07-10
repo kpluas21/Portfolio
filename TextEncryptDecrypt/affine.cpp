@@ -4,6 +4,8 @@
 /*At minimum, the program requires the mode, and the two valid keys to operate. If a text file is specififed it will use that instead*/
 /*of std::cout*/
 
+/*EXAMPLE TO USE   affine cipher    key : 5,8   encrypt : ihhwvc swfrcp*/
+
 #include<iostream>
 #include<vector>
 #include<numeric>
@@ -27,7 +29,7 @@ int main(int argc, char* argv[]) {
     }
 
     const std::string alphabet {"abcdefghijklmnopqrstuvwxyz"};        /*We will use the index of the string for our formulas. A = 0, ..., Z = 25*/
-    std::string input, result = "";                                   /*The text to be encrypted/decrypted and subsequently outputted*/
+    std::string input;                                /*The text to be encrypted/decrypted and subsequently outputted*/
     int a, b, m = 26;
 
     std::cout<<"Please input your text:\n";
@@ -90,7 +92,11 @@ char encrypt(const std::string& alphabet, char c, int a, int b) {
 char decrypt(const std::string& alphabet, char c, int inverse, int b) {
 
     int chIndex = (static_cast<int>(c) % 32) - 1;
-    char decryptLetter = alphabet[inverse * (chIndex - b) % 26];
+    int alphaIndex = ((inverse * (chIndex - b)) % 26);
+
+    if(alphaIndex < 0) { alphaIndex += 26; }
+
+    char decryptLetter = alphabet[alphaIndex];
 
     if(isupper(c)) { return toupper(decryptLetter); }
 
