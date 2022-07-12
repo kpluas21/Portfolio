@@ -6,18 +6,18 @@
 #include<vector>
 
 int main(int argc, char* argv[]) {
-    std::string input;
     const std::string alphabet {"abcdefghijklmnopqrstuvwxyz"};
-    
-    std::cout<<"Please input your text:\n";
-    std::getline(std::cin, input);
 
-    for(auto c : input) {
-        if(isalpha(c)) {
-            std::cout << alphabet[(((static_cast<int>(c) % 32 - 1) + 13 ) % 26)];
-        }
-        else {
-            std::cout<<c;
+    for(std::string input; std::getline(std::cin, input);) {
+        for(auto c : input) {
+            if(isalpha(c)) {
+                std::cout << alphabet[(((static_cast<int>(c) % 32 - 1) + 13 ) % 26)];
+            }
+            else {
+                std::cout<<c;
+            }
         }
     }
+
+    return 0;
 }

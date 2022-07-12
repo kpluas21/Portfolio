@@ -3,6 +3,18 @@ These programs showcase various methods of encrypting and decrypting some input.
 
 List of currently implemented algorithms and ciphers:
 
+## Ceasar 
+One of the most famous ciphers. Uses simple substitution and modular arithmetic to shifts the letters n spaces according to the key. As a result, it is a very insecure way of 
+encrypting text.
+Example:
+With a key of 2
+```
+ceasar cipher
+ |
+ v
+egcuct ekrjgt
+```
+
 ## Affine
 A type of monoalphabetic substitution cipher. Each letter is mapped to its equivalent number, ran through a simple mathematical formula, 
 and converted back to a letter. Works similar to a Ceasar cipher, except you're also multiplying the letter by a key before shifting. 
