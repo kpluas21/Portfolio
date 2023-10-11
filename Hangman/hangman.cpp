@@ -25,9 +25,12 @@ Just make sure that the word_list file is in the same directory as the executabl
 #include "hgraphics.h"
 #include "hangman.h"
 
+static flags = 0; //
+
 // calls and controls the main game loop
 int main(void)
 {
+
     // keeps the user playing the game unless a nonzero value is received, ending the game and thus the program
     // every time main loop starts over a brand new game starts
     while (main_loop() == 0)
@@ -60,9 +63,9 @@ int main_loop(void)
         draw(tries, hangman_g, word_blank, guessed_char); // draw the main screen
 
         // DEBUG: SHOWS BACKGROUND VARIABLES
-         std::cout<<word<<'\n';
-         std::cout<<tries<<'\n';
-         std::cout<<word_blank.size()<<'\n';
+        std::cout << word << '\n';
+        std::cout << tries << '\n';
+        std::cout << word_blank.size() << '\n';
 
         // ACCEPT INPUT
         guess = get_char(guessed_char); // grab a single character/letter as input.
@@ -81,13 +84,13 @@ int main_loop(void)
             tries++; // letter wasnt found in the word, increase tries and update hangman
 
         guessed_char.push_back(guess); // put the guess, whether correct or otherwise, in the list of tried letters. Prevent the player from using them again
-        
-        
+
         std::string word_blank_asString(word_blank.begin(), word_blank.end());
+
+        draw(tries, hangman_g, word_blank, guessed_char);
 
         if (tries == 6) // if player loses
         {
-            draw(tries, hangman_g, word_blank, guessed_char);
             std::cout << "YOU LOSE!\n";
             std::cout << "The word was: " << word << "...\n";
             break; // break out of the loop to allow a new game
@@ -95,6 +98,7 @@ int main_loop(void)
 
         else if (word == word_blank_asString) // if the word is correct
         {
+
             std::cout << "YOU WIN!\n";
             std::cout << "The word was: " << word << "!\n";
             break; // break out of the loop to allow a new game
@@ -118,18 +122,6 @@ int main_loop(void)
 
     // end the game and the program
     return 1;
-}
-
-// returns a 0 if word and word_blank are the same. Non zero if not.
-int check_win(std::string word, std::vector<char> &word_blank)
-{
-    for (int i = 0; i < word_blank.size(); i++) // iterate through the vector, if theres any differences between that and word, return a 1/non zero value
-    {
-        if (word[i] != word_blank[i]) // return 1 if a letter isnt matching with word_blank
-            return 1;
-    }
-
-    return 0; // return a 0 if no differences found, thus ending the game.
 }
 
 // pulls and returns a random word from the file to use for the game

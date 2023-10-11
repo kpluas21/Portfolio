@@ -14,7 +14,9 @@
 #include<vector>
 #include<iostream>
 
-
+typedef enum {
+    DEBUG = 1,
+}flags;
 
 /**
  * @brief Returns a random integer between 1 and 837 inclusive.
@@ -29,15 +31,6 @@ int random_i(void);
  * @return int 
  */
 int main_loop(void);
-
-/**
- * @brief Compares the selected word with the guessed word. Returns a 0 which is a win condition. 1 otherwise.
- * 
- * @param word The word the user is trying to guess
- * @param word_blank The letters the user has guessed correctly so far
- * @return int 
- */
-int check_win(std::string word, std::vector<char>& word_blank);
 
 
 /**
