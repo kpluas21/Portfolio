@@ -4,7 +4,7 @@
 # A small & lightweight 4chan image downloader.
 # To operate, give the program the link to the ACTIVE thread and
 # it will download every single image in its original size and format.
-# After downloading, it will save the images in the current working directory
+# After downloading, it will save the images in the newly created img_dir folder
 import re
 from select import select
 import requests, bs4, os
@@ -17,11 +17,6 @@ thread_URL = input("Please enter the COMPLETE URL of the thread with images you 
 if not thread_URL : 
     print("Nothing entered\n")
     quit()
-
-#Creates a directory for the images
-os.makedirs("threadImages", exist_ok=True)
-#Stores the HTML content in a string using requests
-thread_download = requests.get(thread_URL)
 
 # Checks for errors while requesting the URL
 try:
@@ -41,6 +36,14 @@ thread_class_fileThumb = thread_soup.select('a[class = "fileThumb"]')
 
 img_tags = thread_soup.select('img')
 urls = [img['src'] for img in img_tags]
+
+img_dir = os.getcwd() + "/imgs/"
+
+#Make a dir for our images
+if not os.path.exists(img_dir):
+    os.mkdir(img_dir)
+    
+os.chdir(img_dir)
 
 for url in urls:
     filename = re.search(r'/([\w_-]+[.](jpg|gif|png))$', url)

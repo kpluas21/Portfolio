@@ -25,17 +25,16 @@ Just make sure that the word_list file is in the same directory as the executabl
 #include "hgraphics.h"
 #include "hangman.h"
 
-static flags = 0; //
+// static flags options; 
 
 // calls and controls the main game loop
-int main(void)
+int main(int argc, char* argv[])
 {
-
-    // keeps the user playing the game unless a nonzero value is received, ending the game and thus the program
-    // every time main loop starts over a brand new game starts
+    std::cout<<argc<<" "<<argv[0]<<'\n';
     while (main_loop() == 0)
         ;
 
+    system("clear");
     return 0;
 }
 
@@ -43,22 +42,22 @@ int main(void)
 // each loop will create all of the objects needed to play a full game of hangman
 int main_loop(void)
 {
+
+    int tries = 0;
+    char guess;    
     std::string word = new_word();
     if (word.length() == 0)
-    {
+    { //A word will never have a length of 0. 
         return 1;
     }
-
-    int tries = 0; // the number of times a player has failed at guessing a character. End the game when it reaches 7.
-    char guess;    // self explanatory
 
     std::vector<char> guessed_char; // this vector holds each of the unique letters guessed during the game
     std::vector<char> word_blank;   // create a container to hold the word blanks AKA the word as it currently stands
 
-    for (auto x : word)
+    for (std::size_t i = 0; i < word.length(); i++)
         word_blank.push_back('_');
 
-    do // ACTUAL main loop
+    do 
     {
         draw(tries, hangman_g, word_blank, guessed_char); // draw the main screen
 
@@ -72,7 +71,7 @@ int main_loop(void)
 
         if (word.find(guess) != std::string::npos) // if the guess is in word...
         {
-            for (int i = 0; i < word.length(); i++) // loop through the word
+            for (std::size_t i = 0; i < word.length(); i++) // loop through the word
             {
                 if (guess == word[i]) // if guess and letter in word match then....
                 {
@@ -198,5 +197,5 @@ void draw(int &tries, std::vector<std::string> &hangman_g, std::vector<char> &wo
 
     std::cout << '\n';
 
-    return; // probably unneccesary but good for readability
+    return; 
 }
